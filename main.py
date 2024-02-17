@@ -7,7 +7,7 @@ def mapFunc(n):
 def video_to_frames(video_path, output_json_path):
     cap = cv2.VideoCapture(video_path)
 
-    with open(output_json_path, 'a') as json_file:
+    with open(output_json_path, 'w') as json_file:
         while cap.isOpened():
             ret, frame = cap.read()
             if not ret:
@@ -31,31 +31,3 @@ def video_to_frames(video_path, output_json_path):
 video_path = './output.mp4'
 output_json_path = './frames.txt'
 video_to_frames(video_path, output_json_path)
-
-input_json_path = './frames.txt'
-output_combined_path = './combined_frames.txt'
-segment_size = 150**2
-
-with open(input_json_path, 'r') as input_file:
-    content = input_file.read()
-
-# Calculate the number of segments needed
-num_segments = (len(content) + segment_size - 1) // segment_size
-
-# Initialize an empty list to store segments
-segments = []
-
-# Split the content into segments
-for i in range(num_segments):
-    start_idx = i * segment_size
-    end_idx = (i + 1) * segment_size
-    segment_content = content[start_idx:end_idx]
-    segments.append(segment_content)
-
-# Join segments with commas
-combined_content = ','.join(segments)
-
-# Write the combined content to a new file
-with open(output_combined_path, 'w') as output_file:
-    output_file.write(combined_content)
-    print(len(combined_content.split(",")))

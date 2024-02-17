@@ -2,38 +2,34 @@ input_json_path = './frames.txt'
 output_combined_path = './combined_frames.txt'
 segment_size = 150**2
 
+print("converting to hex")
 
 with open(input_json_path, 'r') as input_file:
     content = input_file.read()
-    input_file.close()
 
-with open(output_combined_path, 'w') as output_file:
-    for i in range(0, len(content), 4):
-        hex_value = hex(int(content[i:i+4], 2))[2:]
-        output_file.write(hex_value)
+hex_segments = []
 
-"""
-with open(input_json_path, 'r') as input_file:
-    content = input_file.read()
+for i in range(0, len(content), 4):
+    hex_segments.append(hex(int(content[i:i+4], 2))[2:])
+    if i % 5000000 == 0:
+        print(i)
 
-# Calculate the number of segments needed
-num_segments = (len(content) + segment_size - 1) // segment_size
+str_result = ''.join(hex_segments)
 
-# Initialize an empty list to store segments
+print("finished converting to hex")
+print("adding commas")
+
 segments = []
 
-# Split the content into segments
-for i in range(num_segments):
-    start_idx = i * segment_size
-    end_idx = (i + 1) * segment_size
-    segment_content = content[start_idx:end_idx]
-    segments.append(segment_content)
+for i in range(0, len(str_result), segment_size):
+    segments.append(str_result[i:i+segment_size])
 
-# Join segments with commas
-combined_content = ','.join(segments)
+segments = ','.join(segments)
 
-# Write the combined content to a new file
+print("finished commas")
+print("writing to file")
+
 with open(output_combined_path, 'w') as output_file:
-    output_file.write(combined_content)
-    print(len(combined_content.split(",")))
-"""
+    output_file.write(segments)
+
+print("finished")
