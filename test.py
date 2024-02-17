@@ -1,6 +1,6 @@
 input_json_path = './frames.txt'
 output_combined_path = './combined_frames.txt'
-segment_size = 150**2
+segment_size = (150**2) // 4
 
 print("converting to hex")
 
@@ -11,8 +11,6 @@ hex_segments = []
 
 for i in range(0, len(content), 4):
     hex_segments.append(hex(int(content[i:i+4], 2))[2:])
-    if i % 5000000 == 0:
-        print(i)
 
 str_result = ''.join(hex_segments)
 
